@@ -2,7 +2,7 @@
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
  * building robust, powerful web applications using React + Laravel.
- */
+*/
 
 import './bootstrap';
 
@@ -13,11 +13,22 @@ import './bootstrap';
  */
 
 import './components/Example';
+import '../css/app.css';
 import ReactDOM from "react-dom/client";
 import { render } from 'react-dom';
+import AllView from './pages/AllView';
+import { BrowserRouter,Route, Routes, Link } from 'react-router-dom';
+import MovieShow from './pages/MovieShow';
 
 function App() {
-    return <h1>Hello World</h1>;
+  return (
+    <BrowserRouter>
+     <Routes> 
+        <Route path="/" element={ <AllView />} />
+        <Route path='/movie/show/:id' element={<MovieShow/>} />
+     </Routes>
+    </BrowserRouter>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("app"));
