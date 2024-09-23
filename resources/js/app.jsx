@@ -19,13 +19,30 @@ import { render } from 'react-dom';
 import AllView from './pages/AllView';
 import { BrowserRouter,Route, Routes, Link } from 'react-router-dom';
 import MovieShow from './pages/MovieShow';
+import PageHeader from './layouts/PageHeader';
+import MoviesSearch from './pages/MoviesSearch';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Auth from "./pages/Auth";
+
+
+const http = axios.create({
+  baseURL: 'http://localhost',
+  withCredentials: true,
+});
 
 function App() {
   return (
     <BrowserRouter>
+     <PageHeader/>
      <Routes> 
         <Route path="/" element={ <AllView />} />
         <Route path='/movie/show/:id' element={<MovieShow/>} />
+        <Route path='/movie/search' element={<MoviesSearch/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path='/register' element={<Register />} />
+        
      </Routes>
     </BrowserRouter>
   );
