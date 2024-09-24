@@ -11,6 +11,7 @@ const getCsrfToken = async () => {
 
 const Register = () => {
   
+  const hostory = use
 
   
   return (

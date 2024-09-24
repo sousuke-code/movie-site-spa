@@ -1,66 +1,70 @@
-import React from 'react'
-import axios from 'axios';
-import { useState } from 'react';
+import React, {useState} from "react";
+import axios from "axios";
 
+function Login() {
+  const [Login, setLogin] = useState({
+    email: '',
+    password: '',
+  })
 
-const http = axios.create({
-  baseURL: 'http://localhost',
-  withCredentials: true,
-});
-
-
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [users, setUsers] = useState([]);
-
-  const getUsers = () => {
-    http.get('http://localhost/api/users').then((res) => {
-      setUsers(res.data);
-    })
+  const handleInput = (e) => {
+    setLogin({...Login, [e.target.name] : e.target.value});
   }
 
-  const login = () => {
-    http.get('/sanctum/csrf-cookie').then((res) => {
-      http.post('/api/login', {email, password}).then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.error('Login error:', error);
-        // エラー時の処理をここに追加
+  const loginSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: Login.email,
+      password: Login.password,
+    }
+
+    axios.get('/sanctum/csrf-cookie').then(response => {
+      axios.post(`api/login`, data).then(res => {
+        if(res.data.status === 200){
+          localStorage.setItem('auth_token', res.data.token);
+          localStorage.setItem('auth_name', res.data.username);
+          console.log('success');
+          history.push('/');
+          location.reload();
+      } else if (res.data.status === 401){
+          console.log('failed');
+      } else {
+          setLogin({...loginInput, error_list: res.data.validation_errors});
+       }
       });
-    }).catch((error) => {
-      console.error('CSRF cookie error:', error);
-      // CSRFトークン取得時のエラー処理
     });
   }
 
-  const onChangeEmail = (e) => setEmail(e.target.value);
-  const onChangePassword = (e) => setPassword(e.target.value);
 
-  return (
-    <>
-    <div>
-    <button onClick={login}>ログイン</button>
-    <button onClick={getUsers}>User 一覧</button>
-    </div>
-    <div>
-      <label>email</label>
-        <input type="text" value={email} onChange={onChangeEmail}/>
-        <label>password</label>
-        <input type="password" value={password} onChange={onChangePassword}/>
-    </div>
-    <div>
-        {
-          users.map((user) => {
-            return (
-              <p key={user.email}>{user.name}</p>
-            )
-          })
-        }
-      </div>
-    </>
-  )
+  return(
+    <div className="container">
+            <div className="row justify-content-center">
+                <div className="col-md-6 col-lg-6 mx-auto">
+                    <div className="card">
+                        <div className="card-header">
+                            <h4>Login</h4>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={loginSubmit}>
+                                <div className="form-group mb-3">
+                                    <label>Mail Address</label>
+                                    <input type="email" name="email" onChange={handleInput} value={Login.email} className="form-control" />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label>Password</label>
+                                    <input type="password" name="password" onChange={handleInput} value={Login.password} className="form-control" />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <button type="submit" className="btn btn-primary">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  );
 }
 
-export default Login
+export default Login;
