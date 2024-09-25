@@ -16,7 +16,13 @@ const PageHeader = () => {
   const logoutSubmit = (e) => {
     e.preventDefault();
 
-      axios.post(`/api/logout`).then(res => {
+    axios.get('/sanctum/csrf-cookie').then(response => {
+      const token = localStorage.getItem('auth_token');
+      axios.post(`/api/logout`, {}, {
+        headers: {
+          'Authorization' : `Bearer ${token}`
+        }
+      }).then(res => {
         console.log(res.data);
         if(res.data.status === 200) {
           localStorage.removeItem('auth_token');
@@ -25,7 +31,8 @@ const PageHeader = () => {
         }
       }).catch(error => {
         console.log('Logout failed', error);
-      })
+      });
+    });
   }
 
 

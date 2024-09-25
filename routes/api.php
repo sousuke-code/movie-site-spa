@@ -10,6 +10,7 @@ use App\Models\User;
 
 Route::post('register', [LoginController::class, 'register']);
 Route::post('login',[LoginController::class, 'login']);
+
 Route::middleware('auth:sanctum')->get('users', function () {
     return User::all();
 });
