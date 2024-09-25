@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import axios from 'axios';
 
 const PageHeader = () => {
   const [loginName, setLoginName] = useState('');
@@ -11,6 +12,21 @@ const PageHeader = () => {
       setLoginName(username);
     }
   }, []);
+
+  const logoutSubmit = (e) => {
+    e.preventDefault();
+
+      axios.post(`/api/logout`).then(res => {
+        console.log(res.data);
+        if(res.data.status === 200) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_name');
+          setLoginName('');
+        }
+      }).catch(error => {
+        console.log('Logout failed', error);
+      })
+  }
 
 
   return (
@@ -31,7 +47,10 @@ const PageHeader = () => {
     <li className='mr-6'>
     <div className='text-white font-bold'>
             {loginName ? (
+              <>
               <span>こんにちは、{loginName}さん</span>
+               <span className='ml-2' onClick={ logoutSubmit }>ログアウト</span>
+              </>
             ) : (
               <span>ログインしていません</span>
             )}
