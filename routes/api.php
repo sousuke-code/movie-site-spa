@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
@@ -18,6 +20,7 @@ Route::middleware('auth:sanctum')->get('users', function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('favorite', [FavoriteController::class, 'store']);
+    Route::get('homepage',[ProfileController::class, 'show']);
     Route::post('logout',[LoginController::class, 'logout']); 
 });
 

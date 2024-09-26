@@ -52,7 +52,10 @@ const PageHeader = () => {
       <Link className='text-blue-500 hover:text-blue-800 font bold' to='/register'>登録</Link>
     </li>
     <li className='mr-6'>
-    <div className='text-white font-bold'>
+      <Link className='text-blue-500 hover:text-blue-800 font bold' to='/homepage'>ホームページ</Link>
+    </li>
+    <li className='mr-6'>
+    <div className='text-black font-bold'>
             {loginName ? (
               <>
               <span>こんにちは、{loginName}さん</span>

@@ -24,6 +24,7 @@ import MoviesSearch from './pages/MoviesSearch';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Auth from "./pages/Auth";
+import HomePage from './pages/HomePage';
 
 
 
@@ -39,6 +40,7 @@ function App() {
         <Route path='/login' element={<Login/>} />
         <Route path="/auth" element={<Auth />} />
         <Route path='/register' element={<Register />} />
+        <Route path= "/homepage" element={<HomePage />} />
         
      </Routes>
     </BrowserRouter>

@@ -67,7 +67,11 @@ const SerchMovieResults = ({ word }) => {
               <Link to={`/movie/show/${movie.id}`}>
                 <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className='rounded h-full'/>
               </Link>
-                <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => {Clickhandler(movie.id); notify(); }}/>
+                <MdFavoriteBorder className='absolute text-black top-2 right-2 text-3xl' onClick={() => 
+                  localStorage.getItem('auth_name')
+                  ?(Clickhandler(movie.id), notify())
+                  : console.log("ログインしていません")
+                }/>
                 <ToastContainer 
                 />
             </div>
@@ -80,7 +84,7 @@ const SerchMovieResults = ({ word }) => {
         )
       }))
      : ( 
-      <p className='text-white font-semibold flex justify-center text-lg'>映画が見つかりませんでした</p>
+      <p className='text-black font-semibold flex justify-center text-lg'>映画が見つかりませんでした</p>
      )
     }
   </>

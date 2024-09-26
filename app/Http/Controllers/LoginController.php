@@ -35,6 +35,7 @@ class LoginController extends Controller
 
                 return response()->json([
                     'status'=>200,
+                    'userid' => $user->id,
                     'username'=>$user->name,
                     'token'=>$token,
                     'message'=>'ログインに成功しました。'

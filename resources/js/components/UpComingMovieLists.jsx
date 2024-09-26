@@ -49,7 +49,12 @@ const UpComingMovieLists = ( {notify}) => {
           <Link to={`/movie/show/${movie.id}`}>
           <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className='rounded'/>
           </Link>
-          <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => {Clickhandler(movie.id); notify(); }}/>
+          <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => 
+          localStorage.getItem('auth_name') 
+          ? (Clickhandler(movie.id), notify()) 
+          : console.log('ログインしていません') //ログインしていない際の処理
+          }
+            />
         </div>
       )
      })}
