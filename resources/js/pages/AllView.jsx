@@ -2,17 +2,21 @@ import React from 'react'
 import MovieLists from '../components/MovieLists'
 import PopularMovieLists from '../components/PopularMovieLists'
 import UpComingMovieLists from '../components/UpComingMovieLists'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AllView = () => {
- 
+    const notify = () => toast("お気に入りに登録しました", {
+        theme: "light" 
+       });
 
 
     return (
        <>
         <h1 className='text-white flex justify-center font-semibold text-lg'>人気の映画</h1>
         <div className=' grid lg:grid-cols-5 md:grid-cols-3 mb-10'>
-         <PopularMovieLists />
+         <PopularMovieLists notify={ notify } />
         </div >
         <div className='mt-10'>
 
@@ -20,7 +24,9 @@ const AllView = () => {
         </div>
 
         <div className='mt-10 grid lg:grid-cols-5 md:grid-cols-3'>
-        <UpComingMovieLists />
+        <UpComingMovieLists notify={ notify } />
+        <ToastContainer 
+                />
         </div>
        </>
 

@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { MdFavoriteBorder } from "react-icons/md";
 
-const PopularMovieLists = () => {
+
+const PopularMovieLists = ({ notify }) => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -17,14 +20,38 @@ const PopularMovieLists = () => {
     };
     fetchMovies();
   }, []);
+
+  const Clickhandler = (movieId) => {
+
+    const data = { movie_id: movieId }
+    axios.get('/sanctum/csrf-cookie').then(response => {
+      const token = localStorage.getItem('auth_token');
+      axios.post(`/api/favorite`, data,{
+        headers: {
+          'Authorization' : `Bearer ${token}`
+        }
+      }).then(res => {
+        if(res.data.status === 200){
+          console.log('success');
+
+      } else {
+          console.log('failed');
+       }
+      });
+    });
+
+  }
+
+
   return (
     <>
        {movies.map((movie) => {
       return (
-        <div key={movie.id} className='m-4'>
+        <div key={movie.id} className='m-4 relative'>
           <Link to={`/movie/show/${movie.id}`}>
           <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className='rounded'/>
           </Link>
+          <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => {Clickhandler(movie.id); notify(); }}/>
         </div>
       )
      })}

@@ -3,10 +3,38 @@ import axios from 'axios';
 import { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdImageNotSupported } from "react-icons/md";
+import { MdFavoriteBorder } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const SerchMovieResults = ({ word }) => {
+  const notify = () => toast("お気に入りに登録しました", {
+   theme: "light" 
+  });
+
   const [flag,setFlag] = useState(false);
   const [movies, setMovies] = useState([]);
+
+  const Clickhandler = (movieId) => {
+    const data = { movie_id: movieId }
+    axios.get('/sanctum/csrf-cookie').then(response => {
+      const token = localStorage.getItem('auth_token');
+      axios.post(`/api/favorite`, data,{
+        headers: {
+          'Authorization' : `Bearer ${token}`
+        }
+      }).then(res => {
+        if(res.data.status === 200){
+          console.log('success');
+
+      } else {
+          console.log('failed');
+       }
+      });
+    });
+
+  }
 
   useEffect(()=> {
     const fetchMovie = async() => {
@@ -35,10 +63,13 @@ const SerchMovieResults = ({ word }) => {
       (movies.map((movie) => {
         return (
           movie.poster_path ? (
-            <div key={movie.id} className='m-4'>
+            <div key={movie.id} className='relative m-4'>
               <Link to={`/movie/show/${movie.id}`}>
-                <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className='rounded'/>
+                <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className='rounded h-full'/>
               </Link>
+                <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => {Clickhandler(movie.id); notify(); }}/>
+                <ToastContainer 
+                />
             </div>
           ) : (
             <div className='flex items-center justify-center text-7xl'>
