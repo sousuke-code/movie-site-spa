@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import MovieSubscription from '../components/MovieSubscription';
 
 const MovieShow = () => {
   const {id} = useParams();
@@ -47,11 +48,12 @@ const MovieShow = () => {
          )}
        </div>
 
-       <h4 className='font-bold text-2xl text-black flex justify-center mt-10 mb-5'>上映時間 : {movie.runtime} 分</h4>
+       <h4 className='font-sans text-2xl text-black flex justify-center mt-10 mb-5'>上映時間 : {movie.runtime} 分</h4>
 
-
+        <div className='m-10'>
         <h4 className='font-bold text-2xl text-black flex justify-center mt-10 mb-5'>作品紹介</h4>
-        <p className='text-xl text-black'>{movie.overview}</p>
+        <p className='text-xl text-black font-sans tracking-wider'>{movie.overview}</p>
+        </div>
 
         <div className='grid grid-cols-5 gap-2 mt-10'>
           {cast.length > 0 ? (
@@ -68,6 +70,8 @@ const MovieShow = () => {
           )
           }
         </div>
+
+        <MovieSubscription id ={ id }/>
 
 
 

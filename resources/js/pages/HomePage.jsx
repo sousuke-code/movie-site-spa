@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { Audio } from 'react-loader-spinner';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [movies,setMovies ] = useState([]);
@@ -41,12 +42,16 @@ const HomePage = () => {
     
   }else {
     return (
+      <>
+      <h1 className='font-bold text-2xl flex justify-center m-2'>お気に入りの映画一覧</h1>
       <div className='grid grid-cols-3'>
       {movies.length > 0 ? (
         (movies.map((movie) => {
           return (
             <div key={movie.id} className='relative m-4'>
+              <Link to={`/movie/show/${movie.id}`}>
               <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" className='rounded h-full'/>
+              </Link>
             </div>
           )
         })))
@@ -55,6 +60,7 @@ const HomePage = () => {
       )
     }
      </div>
+      </>
     )
 
   }
