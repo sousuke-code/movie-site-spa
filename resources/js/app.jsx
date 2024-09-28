@@ -17,7 +17,7 @@ import '../css/app.css';
 import ReactDOM from "react-dom/client";
 import { render } from 'react-dom';
 import AllView from './pages/AllView';
-import { BrowserRouter,Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import MovieShow from './pages/MovieShow';
 import PageHeader from './layouts/PageHeader';
 import MoviesSearch from './pages/MoviesSearch';
@@ -32,17 +32,17 @@ import HomePage from './pages/HomePage';
 function App() {
   return (
     <BrowserRouter>
-     <PageHeader/>
-     <Routes> 
-        <Route path="/" element={ <AllView />} />
-        <Route path='/movie/show/:id' element={<MovieShow/>} />
-        <Route path='/movie/search' element={<MoviesSearch/>} />
-        <Route path='/login' element={<Login/>} />
+      <PageHeader />
+      <Routes>
+        <Route path="/" element={<AllView />} />
+        <Route path='/movie/show/:id' element={<MovieShow />} />
+        <Route path='/movie/search' element={<MoviesSearch />} />
+        <Route path='/login' element={<Login />} />
         <Route path="/auth" element={<Auth />} />
         <Route path='/register' element={<Register />} />
-        <Route path= "/homepage" element={<HomePage />} />
-        
-     </Routes>
+        <Route path="/homepage" element={<HomePage />} />
+
+      </Routes>
     </BrowserRouter>
   );
 }
