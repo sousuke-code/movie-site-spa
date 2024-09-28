@@ -50,19 +50,43 @@ const PageHeader = () => {
 
 
 
-    <nav className='bg-white shadow h-16 border-bottom flex justify-center items-center'>
-   <ul className='flex justify-center items-cente w-full'>
+   <nav className='bg-white shadow h-16 border-bottom flex'>
+   <ul className='flex w-full justfy-end items-center'>
 
-    <li>
-       
+   <li className='mr-6 ml-auto'>
+     <div className='max-md:hidden'>
+      <Link className='text-black font-bold text-lg hover:text-blue-800' to='/'>トップページ</Link>
+     </div>
+    </li>
+
+    <li className='mr-6'>
+      <div className='max-md:hidden'>
+      <Link className='text-black font-bold text-lg hover:text-blue-800 font bold' to='/movie/search'>検索する</Link>
+      </div>
     </li>
 
     <li>
 
     </li>
+
+
+    <li className='mr-2 '>
+            {login ? (
+               <div onClick={logoutSubmit}>
+               <LuLogOut className='text-2xl'/>
+               <p className='text-balck font-bold'>logout</p>
+              </div>
+            ) : (
+              <>
+              <Link  className='text-2xl text-black font-bold hover:text-blue-800 font bold' to='/login'>Login</Link>
+              </>
+            )}
+          
+    </li>
+
 
      
-    <li className='ml-auto'>
+    <li className='items-right p-2'>
       <div className='lg:hidden flex items-center text-right'>
       <button onClick={handleMenuOpen} type="button" className="z-20 ml-auto space-y-2">
             <div className={openMenu ? 'w-8 h-0.5 bg-gray-600 translate-y-2.5 rotate-45' : 'w-8 h-0.5 bg-gray-600'} />
@@ -83,16 +107,16 @@ const PageHeader = () => {
      : 'fixed right-[-100%]'}>
    <ul className=''>
     <li className='m-10 text-2xl'>
-      <Link className='text-black font-bold hover:text-blue-800' to='/'>ホーム</Link>
+      <Link onClick={handleMenuOpen} className='text-black font-bold hover:text-blue-800' to='/'>ホーム</Link>
     </li>
     <li className='m-10 mr-6 text-2xl'>
-      <Link className='text-black font-bold hover:text-blue-800 font bold' to='/movie/search'>検索する</Link>
+      <Link onClick={handleMenuOpen}  className='text-black font-bold hover:text-blue-800 font bold' to='/movie/search'>検索する</Link>
     </li>
 
     <li className='m-10 text-2xl'>
        { login ? (
         <>
-         <Link className='text-black hover:text-blue-800 font-bold' to='/homepage'>ホームページ</Link>
+         <Link onClick={handleMenuOpen} className='text-black hover:text-blue-800 font-bold' to='/homepage'>マイページ</Link>
         </>
        ) : (
         <>
@@ -101,19 +125,7 @@ const PageHeader = () => {
 
     </li>
 
-    <li className='m-10'>
-            {login ? (
-               <div onClick={logoutSubmit}>
-               <LuLogOut className='text-2xl'/>
-               <p className='text-balck font-bold'>logout</p>
-              </div>
-            ) : (
-              <>
-              <Link className='text-2xl text-black font-bold hover:text-blue-800 font bold' to='/login'>Login</Link>
-              </>
-            )}
-          
-    </li>
+    
    </ul>
   </nav>
 

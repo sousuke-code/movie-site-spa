@@ -20,7 +20,7 @@ const MoviesSearch = () => {
         />
     </div>
 
-    <div className='mt-10 grid lg:grid-cols-5 md:grid-cols-3'>
+    <div className='mt-10 grid grid-cols-3 lg:grid-cols-5'>
     <SerchMovieResults word={inputValue} />
     </div>
     </>

@@ -1,6 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import MovieSubscription from '../components/MovieSubscription';
+import ReviewLists from '../components/ReviewLists';
 
 const MovieShow = () => {
   const {id} = useParams();
@@ -71,7 +72,14 @@ const MovieShow = () => {
           }
         </div>
 
+        
         <MovieSubscription id ={ id }/>
+
+
+        <div className='grid sm:p-2
+        sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mt-5 w-full'>
+        <ReviewLists id = { movie.id }/>
+        </div>
 
 
 
