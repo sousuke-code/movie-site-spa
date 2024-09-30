@@ -19,7 +19,7 @@ function Login() {
           localStorage.setItem('auth_id', res.data.userid);
           console.log('success');
           navigate('/homepage');
-          // location.reload();
+          location.reload();
         } else {
           console.log('login failed');
         }

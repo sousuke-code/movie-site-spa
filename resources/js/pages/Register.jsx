@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from "axios";
 import { useForm } from 'react-hook-form';
-import { Link  } from 'react-router-dom';
+import { Link, Navigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;  // クッキーを送信できるように設定
 
 
 const Register = () => {
+  const navigate = useNavigate();
 
   const {register, handleSubmit, reset} = useForm();
   
@@ -19,6 +21,8 @@ const Register = () => {
             localStorage.setItem('auth_token', res.data.token);
             localStorage.setItem('auth_name', res.data.username);
             console.log('Success')
+            navigate('/homepage');
+            location.reload();
           }else {
             console.log('failed')
           }

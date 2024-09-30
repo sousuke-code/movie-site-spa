@@ -4,11 +4,11 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import StarIcon from "./StarIcon";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ReviewModal = ({ show, setShow, movie }) => {
-
-    const {register, handleSubmit, reset} = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
     const [score, setScore] = useState(3);
 
@@ -17,37 +17,44 @@ const ReviewModal = ({ show, setShow, movie }) => {
     };
 
     const onSubmit = (data) => {
-
         const reviewData = {
             ...data,
             score: score,
             movie_id: movie.id,
             user_name: localStorage.getItem("auth_name"),
-        }
+        };
 
         console.log(reviewData);
-        
-        axios.get("/sanctum/csrf-cookie").then(response => {
+
+        axios.get("/sanctum/csrf-cookie").then((response) => {
             const token = localStorage.getItem("auth_token");
-            console.log(token)
-            axios.post(`/api/review/show`, reviewData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }).then(res => {
-              if(res.data.status === 200) {
-                console.log('success');
-              } else {
-                console.log('error');
-              }
-            })
-        })
-    }
+            console.log(token);
+            axios
+                .post(`/api/review/show`, reviewData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => {
+                    if (res.data.status === 200) {
+                        console.log("success");
+												closeModal();
+												location.reload();
+                    } else {
+                        console.log("error");
+                    }
+                });
+        });
+    };
     if (show) {
         return (
             <>
                 <div id="overlay" className="">
-                    <form id="content" className="z-2 m-20 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
+                    <form
+                        id="content"
+                        className="z-2 m-10 bg-white rounded"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
                         <div className="bg-gray-400 shadow relative">
                             <h1 className="py-2 text-black font-bold text-center text-lg">
                                 {movie.title}
@@ -58,23 +65,30 @@ const ReviewModal = ({ show, setShow, movie }) => {
                             />
                         </div>
                         <div className="p-10">
-                            <div className="flex items-center gap-2">
-                                <span className="font-bold text-lg ">評価</span>
+                            <div className="lg:flex items-center gap-2">
+                                <span className="font-bold text-lg text-center">評価</span>
+                                <div className="flex">
                                 <StarIcon
                                     score={score}
                                     setScore={setScore}
                                     className=""
                                 />
-                                <span>{score}点 / 5点中</span>
+                                <span className="">{score}点 </span>
+																</div>
                             </div>
 
-                            <h1 className="text-2xl font-bold text-center mb-2 mt-5">
+                            <label
+                                for="message"
+                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white mt-10"
+                            >
                                 感想
-                            </h1>
+                            </label>
                             <textarea
-                            {...register('review', {required: true})}
-                                className="w-full border border-black"
-                                id=""
+                                {...register("review", { required: true })}
+                                id="message"
+                                rows="4"
+                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="感想をコメントしてね"
                             ></textarea>
 
                             <div className="flex justify-center mt-10">
