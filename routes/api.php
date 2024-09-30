@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('users', function () {
 Route::get('/review/{id}',[ReviewController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('review/show', [ReviewController::class, 'register']);
     Route::post('favorite', [FavoriteController::class, 'store']);
     Route::get('homepage',[ProfileController::class, 'show']);
     Route::post('logout',[LoginController::class, 'logout']); 

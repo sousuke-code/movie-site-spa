@@ -2,11 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import MovieSubscription from '../components/MovieSubscription';
 import ReviewLists from '../components/ReviewLists';
+import '../../css/app.css';
+import ReviewModal from '../components/ReviewModal';
 
 const MovieShow = () => {
   const { id } = useParams();
-
+  const [show, setShow ] =useState(false);
   const [movie, setMovie] = useState({});
+
+  const Clickhandler = (e) => {
+     
+     console.log('success');
+     {/* ログインしていた場合フォームをポップアップ表示に　ログインしていない場合はアカウント登録画面へ遷移する */}
+     setShow(true);
+
+  }
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -80,6 +90,18 @@ const MovieShow = () => {
         sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mt-5 w-full'>
             <ReviewLists id={movie.id} />
           </div>
+          
+
+          {/*レビュー投稿コンポーネント*/}
+          <div className='flex justify-center mt-10'>
+          <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none  font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={() => Clickhandler(movie.id)}
+          >レビューを投稿する</button>
+          <ReviewModal show={show} setShow ={setShow } movie={movie}/>
+
+          </div>
+
+
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Review;
 
 class ReviewController extends Controller
@@ -16,6 +17,21 @@ class ReviewController extends Controller
         return response()->json([
             'status' => 200,
             'reviews' => $reviews
+        ]);
+    }
+
+    public function register(Request $request) {
+
+        $reviie = Review::create([
+            'user_id' => Auth::id(),
+            'review' => $request->review,
+            'movie_id' => $request->movie_id,
+            'user_name' => $request->user_name,
+            'rating' => $request->score,
+        ]);
+
+        return response()->json([
+            'status' => 200,
         ]);
     }
 }

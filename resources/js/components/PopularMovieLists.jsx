@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { MdFavoriteBorder } from "react-icons/md";
 import { FcLike } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
 
 
 const PopularMovieLists = ({ notify }) => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [like, setLike] = useState({});
 
@@ -67,7 +69,7 @@ const PopularMovieLists = ({ notify }) => {
             <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => 
               localStorage.getItem('auth_name')
               ? (Clickhandler(movie.id), notify())
-              : console.log('ログインしていません')
+              : (navigate('/register'))
             }/>
           )
 

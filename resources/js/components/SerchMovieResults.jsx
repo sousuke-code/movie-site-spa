@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { MdImageNotSupported } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 const SerchMovieResults = ({ word }) => {
+    const navigate = useNavigate()
     const notify = () =>
         toast("お気に入りに登録しました", {
             theme: "light",
@@ -76,7 +78,9 @@ const SerchMovieResults = ({ word }) => {
                                 onClick={() =>
                                     localStorage.getItem("auth_name")
                                         ? (Clickhandler(movie.id), notify())
-                                        : console.log("ログインしていません")
+                                        : (
+                                            navigate('/register')
+                                        )
                                 }
                             />
                             <ToastContainer />

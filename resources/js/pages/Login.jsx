@@ -1,21 +1,25 @@
 import React from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { register, handleSubmit, reset } = useForm();
+  const navigate = useNavigate()
 
   const onSubmit = (data) => {
 
     axios.get('/sanctum/csrf-cookie').then(response => {
       axios.post(`api/login`, data).then(res => {
+        console.log(res.data)
         if (res.data.status === 200) {
           localStorage.setItem('auth_token', res.data.token);
           localStorage.setItem('auth_name', res.data.username);
           localStorage.setItem('auth_id', res.data.userid);
           console.log('success');
-          location.reload();
+          navigate('/homepage');
+          // location.reload();
         } else {
           console.log('login failed');
         }
