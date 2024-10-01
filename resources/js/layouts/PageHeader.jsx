@@ -77,6 +77,17 @@ const PageHeader = () => {
                         </div>
                     </li>
 
+                    <li className="mr-6">
+                        <div className="max-md:hidden">
+                            <Link
+                                className="text-black font-bold text-lg hover:text-blue-800 font bold"
+                                to="/homepage"
+                            >
+                                マイページ
+                            </Link>
+                        </div>
+                    </li>
+
                     <li></li>
 
                     <li className="mr-2 ">
