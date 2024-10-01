@@ -130,18 +130,18 @@ const MovieShow = () => {
                             レビューを投稿する
                         </button>
 
-												{login ? (
+												
 													<ReviewModal
 															show={reviewShow}
 															setShow={setReviewShow}
 															movie={movie}
 													/>
-												) : (
+
 													<LoginModal 
 															loginModal = {loginModal}
 															setLoginModal = {setLoginModal}
 													/>
-												)}
+
 									
 											
                     </div>

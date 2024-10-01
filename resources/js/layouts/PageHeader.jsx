@@ -43,6 +43,7 @@ const PageHeader = () => {
                         localStorage.removeItem("auth_name");
                         setLoginName("");
                         setLogin(false);
+												location.reload();
                     }
                 })
                 .catch((error) => {
