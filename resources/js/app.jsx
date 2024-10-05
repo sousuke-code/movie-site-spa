@@ -25,6 +25,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Auth from "./pages/Auth";
 import HomePage from './pages/HomePage';
+import TheaterView from './pages/TheaterView';
 
 
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path='/register' element={<Register />} />
         <Route path="/homepage" element={<HomePage />} />
+				<Route path="/theater" element={<TheaterView/>}/>
 
       </Routes>
     </BrowserRouter>
