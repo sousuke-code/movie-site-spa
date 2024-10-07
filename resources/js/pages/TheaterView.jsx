@@ -1,16 +1,13 @@
 import React from "react";
 import { GoogleMap, LoadScript,Marker } from "@react-google-maps/api";
 import { useEffect,useState} from "react";
+import { TbCurrentLocation } from "react-icons/tb";
 import axios from "axios";
 
 const TheaterView = () => {
 	const [theaters, setTheaters] = useState([]);
 	
 
-	const mapStyles = {
-		height: "400px",
-		width: "100%"
-};
 
 const defaultCenter = {
 		lat: 35.66581861, lng: 139.72951166,
@@ -33,11 +30,6 @@ const SearchGeolocation = () => {
 		const lat = position.coords.latitude;
 		const lng = position.coords.longitude;
 		fetchTheaters(lat,lng);
-		
-		console.log(position);
-		console.log( lat);
-		console.log( lng);
-
 
 })}
 
@@ -47,16 +39,24 @@ console.log(theaters);
 
 return (
 	<>
-	 <h1>近くの映画館</h1>
-	 <button type="button" onClick={SearchGeolocation}>現在地から探す</button>
-           
 
+  <div className="m-10 lg:m-20 bg-white shadow rounded">
+	 <div className="flex items-center justify-center text-xl font-bold mt-10 p-2">
+	 <button type="button" onClick={SearchGeolocation}>現在地から探す</button>
+	 <TbCurrentLocation className="text-2xl"/>
+		</div>
+           
+  <ul className=" divide-gray-100 shadow bg-white rounded">
 						{theaters.map((theater,index) => (
-								<div>
+							<li className="flex justify between py-5 border-bottom">
+								<div className="flex m-2">
 								<h1>{theater.name}</h1>
-								<p>{theater.vicinity}</p>
 								</div>
+								</li >
 						))}
+
+	</ul>
+	</div>
 	</>
  )
 };
