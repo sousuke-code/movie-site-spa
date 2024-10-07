@@ -6,6 +6,9 @@ const TheaterModal = ({ modal, setModal, theater }) => {
         setModal(false);
     };
 
+		const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+		
+		console.log(apiKey)
     if (modal) {
         return (
             <div id="overlay">
@@ -21,7 +24,7 @@ const TheaterModal = ({ modal, setModal, theater }) => {
 									{
 										theater.photos &&  (
 											<img
-													src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=300&photoreference=${theater.photos[0].photo_reference}&key=AIzaSyCgozeQ-2cP6pu0PTKqtcng1PQFHifLI1g`}
+													src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&maxheight=300&photoreference=${theater.photos[0].photo_reference}&key=${apiKey}`}
 													alt={theater.name}
 													className="w-full"
 											/>

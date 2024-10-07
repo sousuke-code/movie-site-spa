@@ -11,7 +11,7 @@ class TheaterController extends Controller
 	{
 			$lat = $request->lat;
 			$lng = $request->lng;
-			$apiKey = env('GOOGLE_MAPS_API_KEY'); //
+			$apiKey = env('VITE_GOOGLE_MAPS_API_KEY'); //
 
 			$response = Http::get("https://maps.googleapis.com/maps/api/place/nearbysearch/json", [
 					'location' => "{$lat},{$lng}",
