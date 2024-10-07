@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { LuLogOut } from "react-icons/lu";
+import { TbCurrentLocation } from "react-icons/tb";
 import axios from "axios";
 
 const PageHeader = () => {
@@ -54,9 +55,20 @@ const PageHeader = () => {
 
     return (
         <>
-            <nav className="bg-white shadow h-16 border-bottom flex">
-                <ul className="flex w-full justfy-end items-center">
+            <nav className="bg-white shadow h-16 border-bottom flex ">
+                <ul className="flex w-full justfy-end items-center ">
                     <li className="mr-6 ml-auto">
+                        <div className="max-md:hidden flex ">
+                            <Link
+                                className=""
+                                to="/theater"
+                            >
+															 <h1 className="text-lg font-bold">映画館を探す</h1>
+                            </Link>
+                        </div>
+                    </li>
+
+                    <li className="mr-6">
                         <div className="max-md:hidden">
                             <Link
                                 className="text-black font-bold text-lg hover:text-blue-800"
@@ -161,6 +173,16 @@ const PageHeader = () => {
                             ホーム
                         </Link>
                     </li>
+                    <li className="m-10 mr-6 text-2xl">
+                        <Link
+                            onClick={handleMenuOpen}
+                            className="text-black font-bold hover:text-blue-800 font bold"
+                            to="/theater"
+                        >
+                            近くの映画館を探す
+                        </Link>
+                    </li>
+
                     <li className="m-10 mr-6 text-2xl">
                         <Link
                             onClick={handleMenuOpen}
