@@ -43,11 +43,6 @@ const HomePage = () => {
   } else {
     return (
       <>
-			  <h1>
-					<Link to="/theater">
-					近くの映画館を探す
-					</Link>
-				</h1>
         <h1 className='font-bold text-2xl flex justify-center m-2'>お気に入りの映画一覧</h1>
         <div className='grid grid grid-cols-3 lg:grid-cols-5'>
           {movies.length > 0 ? (
