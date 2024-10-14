@@ -10,6 +10,9 @@ const TheaterView = () => {
     const [modal, setModal] = useState(false);
     const [selectTheater, setSelectTheater] = useState([]);
 
+    const [currentLat, setCurrentLat] = useState(null);
+    const [currentLng, setCurrentLng] = useState(null);
+
     //現在地の初期化
     const lat = 0;
     const lng = 0;
@@ -26,6 +29,8 @@ const TheaterView = () => {
         navigator.geolocation.getCurrentPosition((position) => {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
+            setCurrentLat(lat);
+            setCurrentLng(lng);
             fetchTheaters(lat, lng);
         });
     };
@@ -63,8 +68,8 @@ const TheaterView = () => {
                     modal={modal}
                     setModal={setModal}
                     theater={selectTheater}
-                    lat={lat}
-                    lng={lng}
+                    lat={currentLat}
+                    lng={currentLng}
                 />
             </div>
         </>
