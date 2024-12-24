@@ -1,18 +1,26 @@
 import React from "react";
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
+
   const { register, handleSubmit, reset } = useForm();
+
+	const [ errorMessage, setErrorMessage] = useState("");
+
+
+
   const navigate = useNavigate()
 
   const onSubmit = (data) => {
 
     axios.get('/sanctum/csrf-cookie').then(response => {
       axios.post(`api/login`, data).then(res => {
-        console.log(res.data)
         if (res.data.status === 200) {
           localStorage.setItem('auth_token', res.data.token);
           localStorage.setItem('auth_name', res.data.username);
@@ -22,6 +30,7 @@ function Login() {
           location.reload();
         } else {
           console.log('login failed');
+					setErrorMessage(res.data.message);
         }
       });
     });
@@ -39,6 +48,7 @@ function Login() {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-black">
             ログイン
           </h1>
+					<p className="text-red-400">* {errorMessage}</p>
           <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">メールアドレス</label>

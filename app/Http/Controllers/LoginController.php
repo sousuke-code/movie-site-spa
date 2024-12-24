@@ -25,12 +25,17 @@ class LoginController extends Controller
             ]);
         } else {
             $user = User::where('email', $request->email)->first();
-            if (! $user || ! Hash::check($request->password, $user->password)) {
+            if (! $user) {
                 return response()->json([
                     'status'=>401,
-                    'message'=>'入力情報が不正です',
+                    'message'=>'ユーザーが存在しません',
                 ]);
-            } else {
+            } else if (! Hash::check($request->password, $user->password)){
+							return response()->json([
+								'status' => 401,
+								'message' => 'パスワードが異なります'
+							]);
+						} else {
                 $token = $user->createToken($user->email.'_Token')->plainTextToken;
 
                 return response()->json([
