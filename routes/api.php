@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('users', function () {
 });
 
 Route::get('theaters',[TheaterController::class, 'index']);
+Route::get('map',[TheaterController::class, 'calc']);
 
 Route::get('/review/{id}',[ReviewController::class, 'index']);
 

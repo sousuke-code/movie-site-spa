@@ -23,4 +23,21 @@ class TheaterController extends Controller
 
 			return $response->json(); // レスポンスをJSON形式で返す
 	}
+
+	public function calc(Request $request)
+    {
+
+		$apiKey = env('VITE_GOOGLE_MAPS_API_KEY');
+
+	
+
+		$response = Http::get("https://maps.googleapis.com/maps/api/distancematrix/json", [
+			'origins' => "{$request->lat},{$request->lng}",
+			'destinations' => "{$request->locationLat},{$request->locationLng}",
+			'key' => $apiKey,
+
+		]);
+
+		return $response->json();
+	}
 }
