@@ -26,16 +26,34 @@ import Register from './pages/Register';
 import Auth from "./pages/Auth";
 import HomePage from './pages/HomePage';
 import TheaterView from './pages/TheaterView';
+import { useEffect,useState } from 'react';
+import axios from 'axios';
 
 
 
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [locading, setLoading] = useState(true);
+
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+   axios.get('/sanctum/csrf-cookie')
+     .then(() => axios.get('/api/user'))
+     .then(res => {
+      setUser(res.data.user);
+     })
+     .catch(() => {
+      console.log('Not logged in');
+      setUser(null);
+     })
+  }, []);
   return (
     <BrowserRouter>
-      <PageHeader />
+      <PageHeader user={user}/>
       <Routes>
-        <Route path="/" element={<AllView />} />
+        <Route path="/" element={<AllView user={user}/>} />
         <Route path='/movie/show/:id' element={<MovieShow />} />
         <Route path='/movie/search' element={<MoviesSearch />} />
         <Route path='/login' element={<Login />} />

@@ -30,5 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('favorite', [FavoriteController::class, 'store']);
     Route::get('homepage',[ProfileController::class, 'show']);
     Route::post('logout',[LoginController::class, 'logout']); 
+    Route::get('/user', function (Request $request) {
+        return response()->json([
+            "status" => 200,
+            "user" => $request->user()->name
+        ]);
+    });
 });
 

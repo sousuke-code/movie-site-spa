@@ -13,77 +13,73 @@ use Validator;
 
 class LoginController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-            'email'=>'required',
-            'password'=>'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'validation_errors'=>$validator->messages(),
+                'validation_errors' => $validator->messages(),
             ]);
-        } else {
-            $user = User::where('email', $request->email)->first();
-            if (! $user) {
-                return response()->json([
-                    'status'=>401,
-                    'message'=>'ユーザーが存在しません',
-                ]);
-            } else if (! Hash::check($request->password, $user->password)){
-							return response()->json([
-								'status' => 401,
-								'message' => 'パスワードが異なります'
-							]);
-						} else {
-                $token = $user->createToken($user->email.'_Token')->plainTextToken;
-
-                return response()->json([
-                    'status'=>200,
-                    'userid' => $user->id,
-                    'username'=>$user->name,
-                    'token'=>$token,
-                    'message'=>'ログインに成功しました。'
-                ]);
-            }
         }
-    }
-   
 
-    public function register(Request $request){
+        if(Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Login Successfully',
+            ]);
+        }
+
+        return response()->json([
+            "status" => 401,
+            "message" => "failed to login"
+        ]);
+    }
+
+
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-            'name'=>'required|max:191',
-            'email'=>'required|email|max:191|unique:users,email',
-            'password'=>'required|min:8',
+            'name' => 'required|max:191',
+            'email' => 'required|email|max:191|unique:users,email',
+            'password' => 'required|min:8',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'validation_errors'=>$validator->messages(),
+                'validation_errors' => $validator->messages(),
             ]);
         } else {
             $user = User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password'=>Hash::make($request->password),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
             ]);
 
-            $token = $user->createToken($user->email.'_Token')->plainTextToken;
+            Auth::login($user);
 
             return response()->json([
-                'status'=>200,
-                'username'=>$user->name,
-                'token'=>$token,
-                'message'=>'Registerd Successfully'
+                'status' => 200,
+                'message' => 'Registerd Successfully',
+                'user' => $user,
             ]);
         }
     }
 
-    public function logout(){
-        auth()->user()->tokens()->delete();
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
         return response()->json([
             'status' => 200,
-            'message' => 'Logout successfully',
+            'message' => 'logout successfully'
         ]);
     }
 }

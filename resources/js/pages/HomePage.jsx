@@ -10,19 +10,14 @@ const HomePage = () => {
 
   // const data = localStorage.getItem('auth_id');
   useEffect(() => {
-    axios.get('/sanctum/csrf-cookie').then(response => {
-      const token = localStorage.getItem('auth_token');
-      axios.get(`/api/homepage`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        if (res.data.status === 200) {
+    axios.get('/sanctum/csrf-cookie').then(() => {
+      axios.get('/api/homepage', { withCredentials: true}).then((res) => {
+        if(res.data.status === 200) {
           setMovies(res.data.movies);
         }
         setLoading(false);
-      })
-    })
+    })})
+
   }, []);
 
   if (loading === true) {
@@ -44,7 +39,7 @@ const HomePage = () => {
     return (
       <>
         <h1 className='font-bold text-2xl flex justify-center m-2'>お気に入りの映画一覧</h1>
-        <div className='grid grid grid-cols-3 lg:grid-cols-5'>
+        <div className='grid grid-cols-3 lg:grid-cols-5'>
           {movies.length > 0 ? (
             (movies.map((movie) => {
               return (

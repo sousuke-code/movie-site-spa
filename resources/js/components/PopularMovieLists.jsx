@@ -7,7 +7,7 @@ import { FcLike } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 
 
-const PopularMovieLists = ({ notify }) => {
+const PopularMovieLists = ({ notify, user}) => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [like, setLike] = useState({});
@@ -29,13 +29,8 @@ const PopularMovieLists = ({ notify }) => {
   const Clickhandler = (movieId) => {
 
     const data = { movie_id: movieId }
-    axios.get('/sanctum/csrf-cookie').then(response => {
-      const token = localStorage.getItem('auth_token');
-      axios.post(`/api/favorite`, data,{
-        headers: {
-          'Authorization' : `Bearer ${token}`
-        }
-      }).then(res => {
+    axios.get('/sanctum/csrf-cookie', { withCredentials: true}).then(response => {
+      axios.post(`/api/favorite`, data).then(res => {
         if(res.data.status === 200){
           console.log('success');
           setLike((prevLike) => ({
@@ -43,7 +38,6 @@ const PopularMovieLists = ({ notify }) => {
             [movieId] : !prevLike[movieId] ,
         
           }))
-
       } else {
           console.log('failed');
        }
@@ -67,7 +61,7 @@ const PopularMovieLists = ({ notify }) => {
 
           ): (
             <MdFavoriteBorder className='absolute text-white top-2 right-2 text-3xl' onClick={() => 
-              localStorage.getItem('auth_name')
+              user
               ? (Clickhandler(movie.id), notify())
               : (navigate('/register'))
             }/>

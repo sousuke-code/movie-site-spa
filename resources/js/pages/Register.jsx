@@ -13,23 +13,19 @@ const Register = () => {
   const {register, handleSubmit, reset} = useForm();
   
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
 
-    axios.get('/sanctum/csrf-cookie').then( response => {
-        axios.post(`/api/register`, data).then(res => {
-          if (res.data.status === 200) {
-            localStorage.setItem('auth_token', res.data.token);
-            localStorage.setItem('auth_name', res.data.username);
-            console.log('Success')
-            navigate('/homepage');
-            location.reload();
-          }else {
-            console.log('failed')
-          }
-        })
+    await axios.get('/sanctum/csrf-cookie');
+
+    axios.post('/api/register', data).then(res =>  {
+      if (res.data.status === 200) {
+        
+        navigate('/homepage');
+        window.location.reload();
+      } else {
+        console.log('failed')
+      }
     })
-
-    reset();
   }
 
   

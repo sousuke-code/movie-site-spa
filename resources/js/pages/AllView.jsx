@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const AllView = () => {
+const AllView = ({user}) => {
     const notify = () => toast("お気に入りに登録しました", {
         theme: "light"
     });
@@ -20,7 +20,7 @@ const AllView = () => {
             <span className='flex justify-center items-center text-3xl font bold'>---</span>
 
             <div className=' grid grid-cols-3  lg:grid-cols-5 mb-10'>
-                <PopularMovieLists notify={notify} />
+                <PopularMovieLists notify={notify} user={user}/>
             </div >
 
             <div className='mt-10'>
@@ -30,7 +30,7 @@ const AllView = () => {
             <span className='flex justify-center items-center text-3xl font bold'>---</span>
 
             <div className='mt-10 grid grid-cols-3 lg:grid-cols-5'>
-                <UpComingMovieLists notify={notify} />
+                <UpComingMovieLists notify={notify} user={user} />
                 <ToastContainer
                 />
             </div>

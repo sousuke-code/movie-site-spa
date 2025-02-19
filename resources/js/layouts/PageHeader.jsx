@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { LuLogOut } from "react-icons/lu";
 import { TbCurrentLocation } from "react-icons/tb";
 import axios from "axios";
 
-const PageHeader = () => {
-    const [loginName, setLoginName] = useState("");
+const PageHeader = ({ user }) => {
     const [login, setLogin] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
 
@@ -14,42 +13,26 @@ const PageHeader = () => {
         setOpenMenu(!openMenu);
     };
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        const username = localStorage.getItem("auth_name");
-        if (username) {
-            setLoginName(username);
+        console.log(user);  
+        if (user) {
             setLogin(true);
         }
-    }, []);
+    }, [user]);
 
     const logoutSubmit = (e) => {
         e.preventDefault();
 
         axios.get("/sanctum/csrf-cookie").then((response) => {
-            const token = localStorage.getItem("auth_token");
-            axios
-                .post(
-                    `/api/logout`,
-                    {},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
-                .then((res) => {
-                    console.log(res.data);
-                    if (res.data.status === 200) {
-                        localStorage.removeItem("auth_token");
-                        localStorage.removeItem("auth_name");
-                        setLoginName("");
-                        setLogin(false);
-												location.reload();
-                    }
-                })
-                .catch((error) => {
-                    console.log("Logout failed", error);
-                });
+            axios.post('/api/logout').then((response) => {
+                if(response.data.status === 200) {
+                   navigate('/homepage');
+                } else {
+                    console.log("logout failed", response.data);
+                }
+            })
         });
     };
 
